@@ -1,26 +1,21 @@
 const express = require('express');
 const app = express();
-
+const fs= require('fs')
 const { Pool } = require('pg');
+const path = require('path');
 
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'ProyectJS',
-  password: 'Josep123-',
-  port: 5432,
-});
+const pool = new Pool(JSON.parse(fs.readFileSync(__dirname + '/db_credentials.json')))
 
-app.get('/', express.static('public'))
+app.use('/', express.static('public'))
 // app.use('/', Express.static(path.join(_dirname, 'public')))
 // app.get('/', (req, res) => {
 //   res.send('Hola, mundo!');
 //   res.json([{"data": "Hello world"}])
 // });
 
-app.get('/actor', (req, res) => {
+app.get('/payment', (req, res) => {
   pool.connect();
-  pool.query('SELECT * FROM actor', (error, results) => {
+  pool.query('SELECT * FROM payment', (error, results) => {
     if (error) {
       throw error;
     }
