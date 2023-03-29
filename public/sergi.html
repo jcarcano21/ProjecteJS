@@ -208,7 +208,7 @@
                   </table>
                   <script>
                     const tableBody = document.querySelector('#payments-table tbody');
-                    fetch('/routes/payment.js')
+                    fetch('/api/payment')
                       .then(response => response.json())
                       .then(data => {
                         // Recorre los registros y crea una fila en la tabla para cada uno
