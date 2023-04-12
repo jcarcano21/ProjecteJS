@@ -196,7 +196,7 @@
                       <tr>
                         <th>PAYMENT_ID</th>
                         <th>CUSTOMER_ID</th>
-                        <th>STAFF_ID</th>
+                        <th>STAFF_NAME</th>
                         <th>RENTAL_ID</th>
                         <th>AMOUNT</th>
                         <th>PAYMENT_DATE</th>
@@ -206,20 +206,29 @@
                     <tbody id="payments-table">
                     </tbody>
                   </table>
-
+                
                   <script>
-
                     fetch('/api/payment')
                       .then((response) => response.json())
                       .then((data) => {
                         let content = ''
                         for (let row of data) {
-                          content += '<tr><td>' + row.payment_id + '</td><td>' + row.customer_id + '</td><td>' + row.staff_id + '</td><td>' + row.rental_id + '</td><td>' + row.amount + '</td><td>' + row.payment_date + '</td><td><button id="borrar-{{ payment_id }}">Borrar</button></td><td>'
+                          content += '<tr><td>' + row.payment_id + '</td><td>' + row.customer_id + '</td><td>' + row.first_name + '</td><td>' + row.rental_id + '</td><td>' + row.amount + '</td><td>' + row.payment_date + '</td><td><button onclick="deletePayment(' + row.payment_id + ')">Borrar</button></td></tr>';
                         }
                         document.getElementById('payments-table').innerHTML = content
                       })
+                
+                    function deletePayment(payment_id) {
+                      fetch('/api/payment/' + payment_id, { method: 'DELETE' })
+                        .then(response => {
+                          if (response.ok) {
+                            location.reload();
+                          }
+                        });
+                    }
                   </script>
                 </div>
+                
               </div>
             </div>
           </div>
